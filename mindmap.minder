@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<minder>
+  <theme name="Dark" index="1"/>
+  <layout name="Vertical"/>
+  <drawarea x="-353.451176693663" y="-68.527213647961617" scale="1"/>
+  <nodes>
+    <node id="0" posx="353.43182854913175" posy="184.54024465382099" width="78" height="27" side="left" fold="false" treesize="292">
+      <nodename>Server.js</nodename>
+      <nodenote></nodenote>
+      <nodes>
+        <node id="4" posx="358.93182854913175" posy="261.54024465382099" width="67" height="27" side="bottom" fold="false" treesize="758" color="#c5252d">
+          <nodename>serve()</nodename>
+          <nodenote></nodenote>
+          <nodes>
+            <node id="5" posx="224.93182854913175" posy="338.54024465382099" width="150" height="27" side="bottom" fold="false" treesize="573" color="#c5252d">
+              <nodename>plugin registration</nodename>
+              <nodenote>1) hapi-dev-errors
+2) some kind of auth
+3) lokijs</nodenote>
+              <nodes>
+                <node id="7" posx="13.431828549131751" posy="415.54024465382099" width="120" height="27" side="bottom" fold="false" treesize="120" color="#c5252d">
+                  <nodename>hapi-dev-errors</nodename>
+                  <nodenote></nodenote>
+                </node>
+                <node id="8" posx="141.43182854913175" posy="415.54024465382099" width="207" height="61" side="bottom" fold="false" treesize="207" color="#c5252d">
+                  <nodename>lokijs plugin - examine github and add custom db setup in plugin</nodename>
+                  <nodenote></nodenote>
+                </node>
+                <node id="9" posx="356.43182854913175" posy="415.54024465382099" width="186" height="44" side="bottom" fold="false" treesize="186" color="#c5252d">
+                  <nodename>custom plugin for routes - look at lokijs example</nodename>
+                  <nodenote></nodenote>
+                </node>
+                <node id="12" posx="550.43182854913175" posy="415.54024465382099" width="36" height="27" side="bottom" fold="false" treesize="36" color="#c5252d">
+                  <nodename></nodename>
+                  <nodenote>basic/simple for first release - migrate to JWT afterwards</nodenote>
+                </node>
+              </nodes>
+            </node>
+            <node id="10" posx="594.43182854913175" posy="338.54024465382099" width="77" height="27" side="bottom" fold="false" treesize="77" color="#c5252d">
+              <nodename>routes</nodename>
+              <nodenote>FIND A WAY TO BREAK OUT INTO SEPARATE FILE/FOLDER STRUCTURE</nodenote>
+              <nodes>
+                <node id="11" posx="622.93182854913175" posy="415.54024465382099" width="20" height="27" side="bottom" fold="false" treesize="20" color="#c5252d">
+                  <nodename></nodename>
+                  <nodenote></nodenote>
+                </node>
+              </nodes>
+            </node>
+            <node id="6" posx="679.43182854913175" posy="338.54024465382099" width="92" height="27" side="bottom" fold="false" treesize="92" color="#c5252d">
+              <nodename>db setup</nodename>
+              <nodenote>IMPORT SETUP FUNCTION FROM DB.JS - may be possible to forgo this step b/c of lokijs hapi plugin</nodenote>
+            </node>
+          </nodes>
+        </node>
+      </nodes>
+    </node>
+    <node id="3" posx="466.95209222100675" posy="105.13854177296162" width="51" height="27" side="left" fold="false" treesize="27">
+      <nodename>db.js</nodename>
+      <nodenote></nodenote>
+    </node>
+  </nodes>
+</minder>

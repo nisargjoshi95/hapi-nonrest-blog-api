@@ -1,0 +1,13 @@
+const ACTIONS = {
+  VERIFY_USER: 'VERIFY_USER',
+  ADD_USER: 'ADD_USER',
+  POSTS: {
+    CREATE: 'CREATE_POST',
+    GET_ALL: 'GET_ALL_POSTS',
+    GET_POST: 'GET_POST',
+    UPDATE: 'UPDATE_POST',
+    REMOVE: 'REMOVE_POST',
+  }
+};
+
+module.exports = ACTIONS;

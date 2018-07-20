@@ -7,7 +7,7 @@ const glob = require('glob');
 const initializeDB = require('./db');
 const validate = require('./auth');
 
-const HANDLERS = require('./handlers');
+const HANDLERS = require('./handlers/handlers');
 
 const server = new hapi.server({
   port: 4001,
@@ -15,7 +15,7 @@ const server = new hapi.server({
 
 const serve = async () => {
   // REGISTER PLUGINS
-  try {  
+  try {
     // Pretty dev errors
     await server.register({
       plugin: require('hapi-dev-errors'),
@@ -23,7 +23,7 @@ const serve = async () => {
         showErrors: process.env.NODE_ENV !== 'production'
       }
     });
-    // Inject db reference into server object & route requests
+    // Instantiate & inject db reference into server object & route requests
     await server.register({
       plugin: require('lokijs-plugin'),
       options: {
@@ -38,7 +38,7 @@ const serve = async () => {
   }
 
   // DB SETUP
-
+  initializeDB(server.app.db);
 
   // ROUTES
   // TODO: BREAK OUT ROUTES INTO SEPARATE FILE/FOLDER STRUCTURE
@@ -47,13 +47,15 @@ const serve = async () => {
       method: 'GET',
       path: '/',
       handler: (req, reply) => {
-        console.log(server.app.db)
         return `TEST`
       }
     },
     {
       method: 'GET',
       path: '/dashboard',
+      options: {
+        auth: 'simple'
+      },
       handler: (req, reply) => `ONLY FOR AUTHENTICATED USERS`
     },
     {
@@ -61,8 +63,12 @@ const serve = async () => {
       path: '/api',
       handler: (req, reply) => {
         const handler = HANDLERS[req.payload.action];
-        console.log('payload', req.payload, handler);
-        return `test reply`;
+        if(handler) {
+          return handler(req, reply);
+        } else {
+          console.error(`${req.payload.action} doesn't have a handler`);
+          reply.sendStatus(500);
+        }
       }
     }
   ]);

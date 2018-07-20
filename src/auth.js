@@ -1,5 +1,7 @@
+const bcrypt = require('bcrypt');
+
 const validate = async(request, username, password) => {
-  const user = request.app.db.findOne({ username });
+  const user = request.app.db.getCollection('users').findOne({ username });
   if(!user) {
     return {
       credentials: null,

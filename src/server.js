@@ -11,6 +11,11 @@ const HANDLERS = require('./handlers/handlers');
 
 const server = new hapi.server({
   port: 4001,
+  routes: {
+    cors: {
+      origin: ['localhost:4000', 'localhost:8080']
+    }
+  }
 });
 
 const serve = async () => {

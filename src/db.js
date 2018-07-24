@@ -5,7 +5,8 @@ const dbInit = (db) => {
   const testPost = posts.insert({
     title: 'Test Title',
     author: 'Nisarg Joshi',
-    createdAt: Date.now(),
+    createdAt: new Date(),
+    description: 'this is an article',
     content: 'blah blah blah blah',
     tags: ['computer science', 'web development'],
     favorites: 0,

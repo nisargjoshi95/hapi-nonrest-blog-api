@@ -1,23 +1,9 @@
 const hapi = require('hapi');
-const https = require('https');
 //const secret = require('./config');
 const initializeDB = require('./db');
 const validate = require('./auth');
 
 const HANDLERS = require('./handlers/handlers');
-
-// SSL SETUP
-const greenlock = require('greenlock-hapi').create({
-  version: 'draft-11', // Let's Encrypt V2
-  server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
-  email: 'nisarg.joshi.95@gmail.com',
-  agreeTos: true,
-  approveDomains: ['websight.tech', 'https://websight.tech'],
-  configDir: require('os').homedir() + '/acme/etc'
-});
-
-const acmeResponder = greenlock.middleware();
-const httpsServer = https.createServer(greenlock.httpsOptions).listen(4001);
 
 const server = new hapi.server({
   //port: 4001,
@@ -51,8 +37,6 @@ const serve = async () => {
     // AUTH
     await server.register(require('hapi-auth-basic'));
     server.auth.strategy('simple', 'basic', { validate });
-    // HTTPS
-    await server.register(require('hapi-require-https'));
   } catch(err) {
     console.log('Error registering plugin:', err);
   }
@@ -120,15 +104,4 @@ const serve = async () => {
   }
 };
 
-// serve();
-
-
-//
-// http redirect to https
-//
-var http = require('http');
-var redirectHttps = require('redirect-https')();
-
-http.createServer(greenlock.middleware(redirectHttps)).listen(4000, () => {
-  console.log('Listening on port 4000 to handle ACME http-01 challenge and redirect to https');
-});
+serve();

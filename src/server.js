@@ -1,9 +1,23 @@
 const hapi = require('hapi');
+const https = require('https');
 //const secret = require('./config');
 const initializeDB = require('./db');
 const validate = require('./auth');
 
 const HANDLERS = require('./handlers/handlers');
+
+// SSL SETUP
+const greenlock = require('greenlock-hapi').create({
+  version: 'draft-11', // Let's Encrypt V2
+  server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+  email: 'nisarg.joshi.95@gmail.com',
+  agreeTos: true,
+  approveDomains: ['websight.tech', 'https://websight.tech'],
+  configDir: require('os').homedir() + '/acme/etc'
+});
+
+const acmeResponder = greenlock.middleware();
+const httpsServer = https.createServer(greenlock.httpsOptions).listen(4001);
 
 const server = new hapi.server({
   //port: 4001,
@@ -13,16 +27,7 @@ const server = new hapi.server({
     }
   },
   tls: true,
-  listener: require('auto-sni')({
-    email: 'nisarg.joshi.95@gmail.com',
-    agreeTos: true,
-    domains: [['websight.tech', 'www.websight.tech'], ['localhost']],
-    dir: '~/letsencrypt/etc',
-    ports: {
-      http: 3001,
-      https: 3002,
-    }
-  }),
+  listener: httpsServer,
   autoListen: false
 });
 
@@ -58,6 +63,17 @@ const serve = async () => {
   // ROUTES
   // TODO: BREAK OUT ROUTES INTO SEPARATE FILE/FOLDER STRUCTURE
   server.route([
+    {
+      method: 'GET',
+      path: '/.well-know/acme-challenge',
+      handler: (req, reply) => {
+        let request = req.raw.req;
+        let response = req.raw.res;
+
+        reply.close(false);
+        acmeResponder(request, response);
+      }
+    },
     {
       method: 'GET',
       path: '/',
@@ -104,4 +120,15 @@ const serve = async () => {
   }
 };
 
-serve();
+// serve();
+
+
+//
+// http redirect to https
+//
+var http = require('http');
+var redirectHttps = require('redirect-https')();
+
+http.createServer(greenlock.middleware(redirectHttps)).listen(4000, () => {
+  console.log('Listening on port 4000 to handle ACME http-01 challenge and redirect to https');
+});

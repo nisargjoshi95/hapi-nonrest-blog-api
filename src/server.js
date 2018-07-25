@@ -11,10 +11,7 @@ const server = new hapi.server({
     cors: {
       origin: ['localhost:4000', 'localhost:8080']
     }
-  },
-  tls: true,
-  listener: httpsServer,
-  autoListen: false
+  }
 });
 
 const serve = async () => {

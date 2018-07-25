@@ -6,7 +6,7 @@ const validate = require('./auth');
 const HANDLERS = require('./handlers/handlers');
 
 const server = new hapi.server({
-  //port: 4001,
+  port: process.env.PORT || 8080,
   routes: {
     cors: {
       origin: ['localhost:4000', 'localhost:8080']

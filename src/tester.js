@@ -7,7 +7,7 @@ const data1 = {
 }
 
 const data = {
-  title: 'Test Title',
+  title: 'Why I use React over ',
   author: 'Nisarg Joshi',
   createdAt: Date.now(),
   content: 'blah blah blah blah',

@@ -1,8 +1,4 @@
 const hapi = require('hapi');
-const config = require('config');
-const joi = require('joi');
-const bcrypt = require('bcrypt');
-const glob = require('glob');
 //const secret = require('./config');
 const initializeDB = require('./db');
 const validate = require('./auth');
@@ -10,12 +6,24 @@ const validate = require('./auth');
 const HANDLERS = require('./handlers/handlers');
 
 const server = new hapi.server({
-  port: 4001,
+  //port: 4001,
   routes: {
     cors: {
       origin: ['localhost:4000', 'localhost:8080']
     }
-  }
+  },
+  tls: true,
+  listener: require('auto-sni')({
+    email: 'nisarg.joshi.95@gmail.com',
+    agreeTos: true,
+    domains: [['websight.tech', 'www.websight.tech'], ['localhost']],
+    dir: '~/letsencrypt/etc',
+    ports: {
+      http: 3001,
+      https: 3002,
+    }
+  }),
+  autoListen: false
 });
 
 const serve = async () => {
@@ -34,10 +42,12 @@ const serve = async () => {
       options: {
         env: 'NODEJS'
       }
-    })
+    });
     // AUTH
     await server.register(require('hapi-auth-basic'));
     server.auth.strategy('simple', 'basic', { validate });
+    // HTTPS
+    await server.register(require('hapi-require-https'));
   } catch(err) {
     console.log('Error registering plugin:', err);
   }

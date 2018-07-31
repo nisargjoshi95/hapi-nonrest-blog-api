@@ -7,6 +7,9 @@ const ACTIONS = {
     GET_POST: 'GET_POST',
     UPDATE: 'UPDATE_POST',
     REMOVE: 'REMOVE_POST',
+    COMMENTS: {
+      CREATE: 'CREATE_COMMENT'
+    }
   }
 };
 

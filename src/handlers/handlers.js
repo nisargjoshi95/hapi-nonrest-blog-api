@@ -34,6 +34,7 @@ const handlers = {
   [ACTIONS.POSTS.GET_POST]: postHandlers.getPost,
   [ACTIONS.POSTS.UPDATE]: postHandlers.updatePost,
   [ACTIONS.POSTS.REMOVE]: postHandlers.deletePost,
+  [ACTIONS.POSTS.COMMENTS.CREATE]: postHandlers.createComment,
 };
 
 module.exports = handlers;

@@ -6,10 +6,11 @@ const validate = require('./auth');
 const HANDLERS = require('./handlers/handlers');
 
 const server = new hapi.server({
-  port: process.env.PORT || 8080,
+  port: process.env.PORT || 4001,
   routes: {
     cors: {
-      origin: ['localhost:4000', 'localhost:8080']
+      origin: ['*'],
+      additionalHeaders: ['cache-control', 'x-requested-with']
     }
   }
 });
@@ -28,7 +29,10 @@ const serve = async () => {
     await server.register({
       plugin: require('lokijs-plugin'),
       options: {
-        env: 'NODEJS'
+        env: 'NODEJS',
+        autoload: true,
+        autosave: true,
+        autosaveInterval: 4000
       }
     });
     // AUTH

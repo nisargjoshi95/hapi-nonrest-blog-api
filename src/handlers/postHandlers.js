@@ -44,4 +44,16 @@ const deletePost = (req, reply) => {
   return req.app.db.getCollection('posts').findAndRemove({'$loki': postId});
 }
 
-module.exports = { createPost, getAllPosts, getPost, updatePost, deletePost };
+const createComment = (req, reply) => {
+  const {postId, comment} = req.payload.data;
+  const posts = req.app.db.getCollection('posts');
+  let post = posts.findOne({'$loki': postId});
+  if(!comment) {
+    return 'ERROR: No comment';
+  } else if(post) {
+    post.comments.push(comment);
+    return posts.update(post);
+  }
+}
+
+module.exports = { createPost, getAllPosts, getPost, updatePost, deletePost, createComment };

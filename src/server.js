@@ -5,17 +5,17 @@ const validate = require('./auth');
 
 const HANDLERS = require('./handlers/handlers');
 
-const server = new hapi.server({
-  port: process.env.PORT || 4001,
-  routes: {
-    cors: {
-      origin: ['*'],
-      additionalHeaders: ['cache-control', 'x-requested-with']
-    }
-  }
-});
-
 const serve = async () => {
+  // Create server
+  const server = new hapi.server({
+    port: process.env.PORT || 4001,
+    routes: {
+      cors: {
+        origin: ['*'],
+        additionalHeaders: ['cache-control', 'x-requested-with']
+      }
+    }
+  });
   // REGISTER PLUGINS
   try {
     // Pretty dev errors
@@ -36,8 +36,8 @@ const serve = async () => {
       }
     });
     // AUTH
-    await server.register(require('hapi-auth-basic'));
-    server.auth.strategy('simple', 'basic', { validate });
+    await server.register(require('hapi-jsonwebtoken'));
+    
   } catch(err) {
     console.log('Error registering plugin:', err);
   }

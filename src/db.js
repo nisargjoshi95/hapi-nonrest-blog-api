@@ -1,6 +1,12 @@
 const dbInit = (db) => {
   const posts = db.addCollection('posts');
   const users = db.addCollection('users');
+  const tags = db.addCollection('tags');
+
+  const defaultTags = {
+    0: 'computer science',
+    1: 'web development',
+  };
 
   const testPost1 = posts.insert({
     title: 'Why I Use React Over Angular',
@@ -8,7 +14,7 @@ const dbInit = (db) => {
     createdAt: new Date(),
     description: 'An all too common question for new web developers.',
     content: 'blah blah blah blah',
-    tags: ['computer science', 'web development'],
+    tags: [0, 1],
     favorites: 0,
     comments: [
       {
